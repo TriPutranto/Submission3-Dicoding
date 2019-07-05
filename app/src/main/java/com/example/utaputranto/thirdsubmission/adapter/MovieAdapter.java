@@ -1,6 +1,7 @@
 package com.example.utaputranto.thirdsubmission.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +13,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
+import com.example.utaputranto.thirdsubmission.details.DetailsMovieActivity;
 import com.example.utaputranto.thirdsubmission.model.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
@@ -30,7 +31,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_movie, viewGroup, false);
         return new ViewHolder(view);
 
     }
@@ -45,11 +46,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 .error(R.drawable.ic_refresh_black_24dp)
                 .into(viewHolder.imgPoster);
         viewHolder.tvTitle.setText(movie.getTitle());
+        viewHolder.tvRelease.setText(movie.getRelease_date());
+        viewHolder.tvOverview.setText(movie.getOverview());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, movie.getMovieId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetailsMovieActivity.class);
+                intent.putExtra("MovieId", movie.getMovieId());
+                context.startActivity(intent);
             }
         });
 
@@ -63,12 +69,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPoster;
-        TextView tvTitle;
+        TextView tvTitle, tvRelease, tvOverview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPoster = itemView.findViewById(R.id.img_poster);
             tvTitle = itemView.findViewById(R.id.tv_title);
+            tvRelease = itemView.findViewById(R.id.tv_release);
+            tvOverview = itemView.findViewById(R.id.tv_overview);
 
         }
     }

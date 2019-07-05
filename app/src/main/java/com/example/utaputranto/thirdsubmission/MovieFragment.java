@@ -41,14 +41,12 @@ public class MovieFragment extends Fragment {
 
 
     public MovieFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_movie, container, false);
     }
 
@@ -78,7 +76,7 @@ public class MovieFragment extends Fragment {
                 movieList = movieResponse.getResult();
                 Log.e("movie size", String.valueOf(movieList.size()));
 
-                for (int i = 0; i < movieList.size(); i++){
+                for (int i = 0; i < movieList.size(); i++) {
                     Movie movie = movieList.get(i);
                     Log.i("Movie", "Result : " + movie.getTitle());
                     Log.i("id", "movie : " + movie.getMovieId());

@@ -2,6 +2,8 @@ package com.example.utaputranto.thirdsubmission.service;
 
 import com.example.utaputranto.thirdsubmission.model.Movie;
 import com.example.utaputranto.thirdsubmission.model.MovieResponse;
+import com.example.utaputranto.thirdsubmission.model.TvShow;
+import com.example.utaputranto.thirdsubmission.model.TvShowResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,9 +20,9 @@ public interface ApiService {
     Call<Movie>getDetail(@Path("movie_id") String movie_id);
 
     @GET("tv/popular/" + API_KEY)
-    Call<MovieResponse> getTvPopular();
+    Call<TvShowResponse> getTvPopular();
 
     @GET("tv/{tv_id}" + API_KEY)
-    Call<Movie>getDetailTv(@Path("tv_id") String movie_id);
+    Call<TvShow>getDetailTv(@Path("tv_id") String tv_id);
 
 }

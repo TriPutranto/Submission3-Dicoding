@@ -14,4 +14,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="budget">Budget</string>
+    <string name="overview">Description</string>
+    <string name="duration">Run Time</string>
+    <string name="language">Language</string>
 </resources>

@@ -6,8 +6,11 @@ import java.util.List;
 
 public class Movie {
 
+
     @SerializedName("title")
     private String title;
+    @SerializedName("name")
+    private String name;
 
     @SerializedName("poster_path")
     private String poster_path;
@@ -25,13 +28,22 @@ public class Movie {
     private String movieId;
 
     @SerializedName("budget")
-    private int budget;
+    private String budget;
 
     @SerializedName("original_language")
     private String original_language;
 
     @SerializedName("genres")
     private List<Genres> genres = null;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getTitle() {
         return title;
@@ -81,11 +93,11 @@ public class Movie {
         this.movieId = movieId;
     }
 
-    public int getBudget() {
+    public String getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(String budget) {
         this.budget = budget;
     }
 
