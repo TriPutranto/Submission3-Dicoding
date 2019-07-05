@@ -2,18 +2,19 @@ package com.example.utaputranto.thirdsubmission.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TvShowResponse {
 
     @SerializedName("results")
-    private List<TvShow> result=null;
+    private ArrayList<TvShow> result=null;
 
-    public List<TvShow> getResult() {
+    public ArrayList<TvShow> getResult() {
         return result;
     }
 
-    public void setResult(List<TvShow> result) {
+    public void setResult(ArrayList<TvShow> result) {
         this.result = result;
     }
 }

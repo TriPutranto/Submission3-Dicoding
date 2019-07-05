@@ -43,11 +43,16 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fragmentManager= getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fl_container
-                        ,new MovieFragment())
-                .commit();
+
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager= getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fl_container
+                            ,new MovieFragment())
+                    .commit();
+
+        }
+
         navigationView.setCheckedItem(R.id.nav_movie);
     }
 

@@ -3,10 +3,8 @@ package com.example.utaputranto.thirdsubmission;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +18,7 @@ import com.example.utaputranto.thirdsubmission.model.TvShowResponse;
 import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +29,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class TvShowFragment extends Fragment {
-    private List<TvShow> tvShowsList;
+    private ArrayList<TvShow> tvShowsList;
     private TvShowAdapter tvShowAdapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -45,18 +43,40 @@ public class TvShowFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tv_show, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_tv_show, container, false);
 
         recyclerView = view.findViewById(R.id.rv_tv_show);
         progressBar = view.findViewById(R.id.progress_bar);
-
         initView();
-        getPopularTvShow();
+
+        if (savedInstanceState != null) {
+            progressBar.setVisibility(View.GONE);
+            tvShowsList = savedInstanceState.getParcelableArrayList("playing");
+
+
+            if (tvShowsList == null) {
+                getPopularTvShow();
+            } else {
+                tvShowAdapter = new TvShowAdapter(getActivity(), tvShowsList);
+                recyclerView.setAdapter(tvShowAdapter);
+            }
+
+        } else {
+            getPopularTvShow();
+
+        }
+        return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (tvShowsList == null) {
+            getPopularTvShow();
+        }else{
+            outState.putParcelableArrayList("playing",new ArrayList<>(tvShowsList));
+        }
+
     }
 
 
@@ -75,7 +95,7 @@ public class TvShowFragment extends Fragment {
                 tvShowsList = tvShowResponse.getResult();
                 Log.e("tv size", String.valueOf(tvShowsList.size()));
 
-                for (int i = 0; i < tvShowsList.size(); i++){
+                for (int i = 0; i < tvShowsList.size(); i++) {
                     TvShow tvShow = tvShowsList.get(i);
                     Log.i("TvShow", "Result : " + tvShow.getName());
                 }

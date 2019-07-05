@@ -1,10 +1,14 @@
 package com.example.utaputranto.thirdsubmission.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TvShow {
+public class TvShow implements Parcelable {
 
     @SerializedName("name")
     private String name;
@@ -82,4 +86,47 @@ public class TvShow {
     public void setGenres(List<Genres> genres) {
         this.genres = genres;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.backdrop_path);
+        dest.writeString(this.poster_path);
+        dest.writeString(this.tv_show_id);
+        dest.writeString(this.overview);
+        dest.writeString(this.original_language);
+        dest.writeList(this.genres);
+    }
+
+    public TvShow() {
+    }
+
+    protected TvShow(Parcel in) {
+        this.name = in.readString();
+        this.backdrop_path = in.readString();
+        this.poster_path = in.readString();
+        this.tv_show_id = in.readString();
+        this.overview = in.readString();
+        this.original_language = in.readString();
+        this.genres = new ArrayList<Genres>();
+        in.readList(this.genres, Genres.class.getClassLoader());
+    }
+
+    public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {
+        @Override
+        public TvShow createFromParcel(Parcel source) {
+            return new TvShow(source);
+        }
+
+        @Override
+        public TvShow[] newArray(int size) {
+            return new TvShow[size];
+        }
+    };
 }

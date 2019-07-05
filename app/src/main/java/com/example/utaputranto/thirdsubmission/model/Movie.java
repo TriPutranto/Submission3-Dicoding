@@ -1,16 +1,19 @@
 package com.example.utaputranto.thirdsubmission.model;
 
+
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
-
+public class Movie implements Parcelable {
 
     @SerializedName("title")
     private String title;
-    @SerializedName("name")
-    private String name;
 
     @SerializedName("poster_path")
     private String poster_path;
@@ -30,20 +33,9 @@ public class Movie {
     @SerializedName("budget")
     private String budget;
 
-    @SerializedName("original_language")
-    private String original_language;
-
     @SerializedName("genres")
     private List<Genres> genres = null;
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getTitle() {
         return title;
@@ -101,14 +93,6 @@ public class Movie {
         this.budget = budget;
     }
 
-    public String getOriginal_language() {
-        return original_language;
-    }
-
-    public void setOriginal_language(String original_language) {
-        this.original_language = original_language;
-    }
-
     public List<Genres> getGenres() {
         return genres;
     }
@@ -116,4 +100,49 @@ public class Movie {
     public void setGenres(List<Genres> genres) {
         this.genres = genres;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.poster_path);
+        dest.writeString(this.overview);
+        dest.writeString(this.release_date);
+        dest.writeString(this.backdrop_path);
+        dest.writeString(this.movieId);
+        dest.writeString(this.budget);
+        dest.writeList(this.genres);
+    }
+
+    public Movie() {
+    }
+
+    protected Movie(Parcel in) {
+        this.title = in.readString();
+        this.poster_path = in.readString();
+        this.overview = in.readString();
+        this.release_date = in.readString();
+        this.backdrop_path = in.readString();
+        this.movieId = in.readString();
+        this.budget = in.readString();
+        this.genres = new ArrayList<Genres>();
+        in.readList(this.genres, Genres.class.getClassLoader());
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

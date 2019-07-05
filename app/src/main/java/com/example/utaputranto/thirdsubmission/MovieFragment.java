@@ -21,6 +21,7 @@ import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +34,10 @@ import retrofit2.Response;
  */
 public class MovieFragment extends Fragment {
 
-    private List<Movie> movieList;
+    final String STATE_TITLE = "state_string";
+    final String STATE_LIST = "state_list";
+    final String STATE_MODE = "state_mode";
+    private ArrayList<Movie> movieList;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -47,19 +51,44 @@ public class MovieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_movie, container, false);
 
         recyclerView = view.findViewById(R.id.rv_movie);
         progressBar = view.findViewById(R.id.progress_bar);
-
         initView();
-        getNowPlaying();
+
+        if (savedInstanceState != null) {
+            progressBar.setVisibility(View.GONE);
+            movieList = savedInstanceState.getParcelableArrayList("playing");
+
+
+            if (movieList == null) {
+                getNowPlaying();
+            }else{
+                movieAdapter = new MovieAdapter(getActivity(),movieList);
+                recyclerView.setAdapter(movieAdapter);
+            }
+
+        } else {
+            getNowPlaying();
+
+        }
+        return view;
     }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (movieList == null) {
+            getNowPlaying();
+        }else{
+            outState.putParcelableArrayList("playing",new ArrayList<>(movieList));
+        }
+
+    }
+
+
 
     private void initView() {
         recyclerView.setHasFixedSize(true);
@@ -95,4 +124,7 @@ public class MovieFragment extends Fragment {
             }
         });
     }
+
+
+
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ThirdSubmission</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -6,11 +7,11 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="change_language">Change Language</string>
-    <string name="menu_movie">Movie</string>
-    <string name="menu_tv_show">Tv Show</string>
+    <string name="change_language">Ubah Bahasa</string>
+    <string name="menu_movie">Film</string>
+    <string name="menu_tv_show">Acara Tv</string>
 
-    <string name="budget">Budget</string>
-    <string name="overview">Description</string>
-    <string name="language">Language</string>
+    <string name="budget">Anggaran</string>
+    <string name="overview">Deskripsi</string>
+    <string name="language">Bahasa</string>
 </resources>
