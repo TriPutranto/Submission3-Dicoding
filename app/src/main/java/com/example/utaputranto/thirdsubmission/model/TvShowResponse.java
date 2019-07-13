@@ -13,8 +13,4 @@ public class TvShowResponse {
     public ArrayList<TvShow> getResult() {
         return result;
     }
-
-    public void setResult(ArrayList<TvShow> result) {
-        this.result = result;
-    }
 }

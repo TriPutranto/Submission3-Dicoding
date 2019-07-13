@@ -1,9 +1,8 @@
-package com.example.utaputranto.thirdsubmission;
+package com.example.utaputranto.thirdsubmission.feature;
 
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.adapter.MovieAdapter;
 import com.example.utaputranto.thirdsubmission.model.Movie;
 import com.example.utaputranto.thirdsubmission.model.MovieResponse;
@@ -21,32 +21,20 @@ import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MovieFragment extends Fragment {
-
-    final String STATE_TITLE = "state_string";
-    final String STATE_LIST = "state_list";
-    final String STATE_MODE = "state_mode";
     private ArrayList<Movie> movieList;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     final ApiService service = RetrofitClient.retrofit().create(ApiService.class);
 
-
     public MovieFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +52,8 @@ public class MovieFragment extends Fragment {
 
             if (movieList == null) {
                 getNowPlaying();
-            }else{
-                movieAdapter = new MovieAdapter(getActivity(),movieList);
+            } else {
+                movieAdapter = new MovieAdapter(getActivity(), movieList);
                 recyclerView.setAdapter(movieAdapter);
             }
 
@@ -76,19 +64,15 @@ public class MovieFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (movieList == null) {
             getNowPlaying();
-        }else{
-            outState.putParcelableArrayList("playing",new ArrayList<>(movieList));
+        } else {
+            outState.putParcelableArrayList("playing", new ArrayList<>(movieList));
         }
-
     }
-
-
 
     private void initView() {
         recyclerView.setHasFixedSize(true);
@@ -115,16 +99,15 @@ public class MovieFragment extends Fragment {
                 movieAdapter = new MovieAdapter(getContext(), movieList);
                 recyclerView.setAdapter(movieAdapter);
 
-
             }
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "can't load from server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+
         });
     }
-
 
 
 }

@@ -11,7 +11,11 @@
     <string name="menu_movie">Film</string>
     <string name="menu_tv_show">Acara Tv</string>
 
-    <string name="budget">Anggaran</string>
     <string name="overview">Deskripsi</string>
     <string name="language">Bahasa</string>
+    <string name="score">Nilai :</string>
+    <string name="popularity">Kepopuleran :</string>
+    <string name="error">gagal memuat data dari server</string>
+
+
 </resources>

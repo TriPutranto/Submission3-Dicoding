@@ -10,7 +10,9 @@
     <string name="menu_movie">Movie</string>
     <string name="menu_tv_show">Tv Show</string>
 
-    <string name="budget">Budget</string>
     <string name="overview">Description</string>
     <string name="language">Language</string>
+    <string name="score">score :</string>
+    <string name="popularity">Popularity :</string>
+    <string name="error">can\'t load data from server</string>
 </resources>

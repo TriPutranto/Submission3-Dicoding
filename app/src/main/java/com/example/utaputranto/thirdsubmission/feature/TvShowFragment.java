@@ -1,4 +1,4 @@
-package com.example.utaputranto.thirdsubmission;
+package com.example.utaputranto.thirdsubmission.feature;
 
 
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.adapter.TvShowAdapter;
 import com.example.utaputranto.thirdsubmission.model.TvShow;
 import com.example.utaputranto.thirdsubmission.model.TvShowResponse;
@@ -35,10 +37,8 @@ public class TvShowFragment extends Fragment {
     private ProgressBar progressBar;
     final ApiService service = RetrofitClient.retrofit().create(ApiService.class);
 
-
     public TvShowFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,12 +73,10 @@ public class TvShowFragment extends Fragment {
         super.onSaveInstanceState(outState);
         if (tvShowsList == null) {
             getPopularTvShow();
-        }else{
-            outState.putParcelableArrayList("playing",new ArrayList<>(tvShowsList));
+        } else {
+            outState.putParcelableArrayList("playing", new ArrayList<>(tvShowsList));
         }
-
     }
-
 
     private void initView() {
         recyclerView.setHasFixedSize(true);
@@ -107,10 +105,8 @@ public class TvShowFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TvShowResponse> call, Throwable t) {
-
+                Toast.makeText(getContext(), getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
 }

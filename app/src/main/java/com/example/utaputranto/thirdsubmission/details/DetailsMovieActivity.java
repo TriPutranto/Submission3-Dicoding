@@ -1,10 +1,11 @@
 package com.example.utaputranto.thirdsubmission.details;
 
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,88 +15,78 @@ import com.example.utaputranto.thirdsubmission.model.Movie;
 import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailsMovieActivity extends AppCompatActivity {
+
     private ImageView imgPoster, imgBackdrop;
-    private TextView tvTitle, tvRelease, tvBudget, tvGenres, tvOverview;
+    private TextView tvTitle, tvRelease, tvScore,
+            tvPopularity, tvOverview, tvLanguage;
     final ApiService service = RetrofitClient.retrofit().create(ApiService.class);
     private Movie movie;
+    private Movie mMovie;
     private String movieId;
-    private ArrayList<Movie> data;
     public static String EXTRA_DATA = "extra_data";
+    private ProgressBar progressBar;
+    private String url = "https://image.tmdb.org/t/p/original/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_movie);
 
+        mMovie = getIntent().getParcelableExtra(EXTRA_DATA);
+        movieId = mMovie.getMovieId();
+
         imgPoster = findViewById(R.id.img_poster);
         imgBackdrop = findViewById(R.id.img_backdrop);
         tvTitle = findViewById(R.id.tv_title);
         tvRelease = findViewById(R.id.tv_release);
-        tvBudget = findViewById(R.id.tv_budget);
-        tvGenres = findViewById(R.id.tv_genre);
+        tvScore = findViewById(R.id.tv_score);
+        tvPopularity = findViewById(R.id.tv_popularity);
         tvOverview = findViewById(R.id.tv_overview);
+        progressBar = findViewById(R.id.progress_bar);
+        tvLanguage = findViewById(R.id.tv_language);
 
-        movieId = getIntent().getStringExtra("MovieId");
-
-        if (savedInstanceState != null) {
-            data = savedInstanceState.getParcelableArrayList("now_playing");
-
-            tvTitle.setText(movie.getTitle());
-//            tvRelease.setText(mMovie.getRelease_date());
-//            tvBudget.setText(mMovie.getBudget());
-//            tvOverview.setText(mMovie.getOverview());
-//            String nilaiGenre = "";
-//
-//            for (int i = 0; i < mMovie.getGenres().size(); i++) {
-//
-//                nilaiGenre += mMovie.getGenres().get(i).getName() + ", ";
-//                tvGenres.setText(nilaiGenre);
-//            }
-
-
-//            Glide.with(this)
-//                    .load(mMovie.getPoster_path())
-//                    .placeholder(R.drawable.ic_file_download_black_24dp)
-//                    .error(R.drawable.ic_refresh_black_24dp)
-//                    .into(imgPoster);
-//            Glide.with(this)
-//                    .load(mMovie.getBackdrop_path())
-//                    .placeholder(R.drawable.ic_file_download_black_24dp)
-//                    .error(R.drawable.ic_refresh_black_24dp)
-//                    .into(imgBackdrop);
-        } else {
-            getDetails();
-        }
-
+        getDetails();
 
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        // Menyimpan data tertentu (String) ke Bundle
-        if (data == null) {
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState == null) {
             getDetails();
-        }else{
-            savedInstanceState.putParcelableArrayList("now_playing", new ArrayList<>(data));
         }
-        // Selalu simpan pemanggil superclass di bawah agar data di view tetap tersimpan
-        super.onSaveInstanceState(savedInstanceState);
     }
-
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        // Selalu panggil superclass agar data di view tetap ada
         super.onRestoreInstanceState(savedInstanceState);
-    }
+        if (savedInstanceState != null) {
 
+            progressBar.setVisibility(View.GONE);
+            setTitle(mMovie.getTitle());
+            tvTitle.setText(mMovie.getTitle());
+            tvOverview.setText(mMovie.getOverview());
+            tvRelease.setText(mMovie.getRelease_date());
+            tvScore.setText(mMovie.getVote_average());
+            tvPopularity.setText(mMovie.getPopularity());
+            tvLanguage.setText(mMovie.getOriginal_language());
+            Glide.with(this)
+                    .load(url + mMovie.getPoster_path())
+                    .placeholder(R.drawable.ic_file_download_black_24dp)
+                    .error(R.drawable.ic_refresh_black_24dp)
+                    .into(imgPoster);
+            Glide.with(this)
+                    .load(url + mMovie.getBackdrop_path())
+                    .placeholder(R.drawable.ic_file_download_black_24dp)
+                    .placeholder(R.drawable.ic_file_download_black_24dp)
+                    .into(imgBackdrop);
+        }
+    }
 
     private void getDetails() {
         Call<Movie> call = service.getDetail(movieId);
@@ -104,21 +95,14 @@ public class DetailsMovieActivity extends AppCompatActivity {
             public void onResponse(Call<Movie> call, Response<Movie> response) {
                 if (response.isSuccessful()) {
                     movie = response.body();
-                    String url = "https://image.tmdb.org/t/p/original/";
                     Log.e("data details : ", movie.getTitle());
                     setTitle(movie.getTitle());
                     tvTitle.setText(movie.getTitle());
                     tvRelease.setText(movie.getRelease_date());
-                    tvBudget.setText("$ " + movie.getBudget());
+                    tvScore.setText(movie.getVote_average());
                     tvOverview.setText(movie.getOverview());
-                    String nilaiGenre = "";
-
-                    for (int i = 0; i < movie.getGenres().size(); i++) {
-
-                        nilaiGenre += movie.getGenres().get(i).getName() + ", ";
-                        tvGenres.setText(nilaiGenre);
-                    }
-
+                    tvPopularity.setText(movie.getPopularity());
+                    tvLanguage.setText(movie.getOriginal_language());
                     Glide.with(getApplicationContext())
                             .load(url + movie.getPoster_path())
                             .placeholder(R.drawable.ic_file_download_black_24dp)
@@ -129,13 +113,14 @@ public class DetailsMovieActivity extends AppCompatActivity {
                             .placeholder(R.drawable.ic_file_download_black_24dp)
                             .error(R.drawable.ic_refresh_black_24dp)
                             .into(imgBackdrop);
-
+                    progressBar.setVisibility(View.GONE);
 
                 }
             }
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
+                Toast.makeText(DetailsMovieActivity.this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
 
             }
         });

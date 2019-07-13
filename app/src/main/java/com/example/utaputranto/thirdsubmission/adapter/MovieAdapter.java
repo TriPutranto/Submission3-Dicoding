@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.details.DetailsMovieActivity;
@@ -33,11 +33,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_movie, viewGroup, false);
         return new ViewHolder(view);
-
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         final Movie movie = movies.get(i);
         String url = "https://image.tmdb.org/t/p/original";
         Glide.with(context)
@@ -48,18 +47,29 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         viewHolder.tvTitle.setText(movie.getTitle());
         viewHolder.tvRelease.setText(movie.getRelease_date());
         viewHolder.tvOverview.setText(movie.getOverview());
+        Log.e("overview", "moview" + movie.getOverview());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Movie mData = new Movie();
+                mData.setMovieId(movie.getMovieId());
+                mData.setTitle(movie.getTitle());
+                mData.setPoster_path(movie.getPoster_path());
+                mData.setBackdrop_path(movie.getBackdrop_path());
+                mData.setOverview(movie.getOverview());
+                mData.setVote_average(movie.getVote_average());
+                mData.setRelease_date(movie.getRelease_date());
+                mData.setPopularity(movie.getPopularity());
+                mData.setOriginal_language(movie.getOriginal_language());
+
                 Toast.makeText(context, movie.getMovieId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, DetailsMovieActivity.class);
-                intent.putExtra("MovieId", movie.getMovieId());
+                intent.putExtra(DetailsMovieActivity.EXTRA_DATA, mData);
                 context.startActivity(intent);
             }
         });
-
-
     }
 
     @Override

@@ -2,11 +2,7 @@ package com.example.utaputranto.thirdsubmission.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TvShow implements Parcelable {
 
@@ -28,8 +24,11 @@ public class TvShow implements Parcelable {
     @SerializedName("original_language")
     private String original_language;
 
-    @SerializedName("genres")
-    private List<Genres> genres = null;
+    @SerializedName("vote_average")
+    private String vote_average;
+
+    @SerializedName("popularity")
+    private String popularity;
 
     public String getName() {
         return name;
@@ -79,12 +78,20 @@ public class TvShow implements Parcelable {
         this.original_language = original_language;
     }
 
-    public List<Genres> getGenres() {
-        return genres;
+    public String getVote_average() {
+        return vote_average;
     }
 
-    public void setGenres(List<Genres> genres) {
-        this.genres = genres;
+    public void setVote_average(String vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
     }
 
 
@@ -101,7 +108,8 @@ public class TvShow implements Parcelable {
         dest.writeString(this.tv_show_id);
         dest.writeString(this.overview);
         dest.writeString(this.original_language);
-        dest.writeList(this.genres);
+        dest.writeString(this.vote_average);
+        dest.writeString(this.popularity);
     }
 
     public TvShow() {
@@ -114,8 +122,8 @@ public class TvShow implements Parcelable {
         this.tv_show_id = in.readString();
         this.overview = in.readString();
         this.original_language = in.readString();
-        this.genres = new ArrayList<Genres>();
-        in.readList(this.genres, Genres.class.getClassLoader());
+        this.vote_average = in.readString();
+        this.popularity = in.readString();
     }
 
     public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {

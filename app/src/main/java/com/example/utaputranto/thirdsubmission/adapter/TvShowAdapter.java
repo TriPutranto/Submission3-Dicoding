@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.details.DetailsTvShowActivity;
@@ -48,8 +46,19 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                TvShow mData = new TvShow();
+                mData.setName(tvShow.getName());
+                mData.setPoster_path(tvShow.getPoster_path());
+                mData.setOverview(tvShow.getOverview());
+                mData.setBackdrop_path(tvShow.getBackdrop_path());
+                mData.setOriginal_language(tvShow.getOriginal_language());
+                mData.setTv_show_id(tvShow.getTv_show_id());
+                mData.setPopularity(tvShow.getPopularity());
+                mData.setVote_average(tvShow.getVote_average());
+
                 Intent intent = new Intent(context, DetailsTvShowActivity.class);
-                intent.putExtra("TvShowId", tvShow.getTv_show_id());
+                intent.putExtra(DetailsTvShowActivity.EXTRA_DATA, mData);
                 context.startActivity(intent);
             }
         });

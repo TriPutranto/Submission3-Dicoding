@@ -13,8 +13,4 @@ public class MovieResponse {
     public ArrayList<Movie> getResult() {
         return result;
     }
-
-    public void setResult(ArrayList<Movie> result) {
-        this.result = result;
-    }
 }

@@ -1,14 +1,10 @@
 package com.example.utaputranto.thirdsubmission.model;
 
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Movie implements Parcelable {
 
@@ -30,12 +26,14 @@ public class Movie implements Parcelable {
     @SerializedName("id")
     private String movieId;
 
-    @SerializedName("budget")
-    private String budget;
+    @SerializedName("vote_average")
+    private String vote_average;
 
-    @SerializedName("genres")
-    private List<Genres> genres = null;
+    @SerializedName("original_language")
+    private String original_language;
 
+    @SerializedName("popularity")
+    private String popularity;
 
     public String getTitle() {
         return title;
@@ -85,22 +83,29 @@ public class Movie implements Parcelable {
         this.movieId = movieId;
     }
 
-    public String getBudget() {
-        return budget;
+    public String getVote_average() {
+        return vote_average;
     }
 
-    public void setBudget(String budget) {
-        this.budget = budget;
+    public void setVote_average(String vote_average) {
+        this.vote_average = vote_average;
     }
 
-    public List<Genres> getGenres() {
-        return genres;
+    public String getOriginal_language() {
+        return original_language;
     }
 
-    public void setGenres(List<Genres> genres) {
-        this.genres = genres;
+    public void setOriginal_language(String original_language) {
+        this.original_language = original_language;
     }
 
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
+    }
 
     @Override
     public int describeContents() {
@@ -115,8 +120,9 @@ public class Movie implements Parcelable {
         dest.writeString(this.release_date);
         dest.writeString(this.backdrop_path);
         dest.writeString(this.movieId);
-        dest.writeString(this.budget);
-        dest.writeList(this.genres);
+        dest.writeString(this.vote_average);
+        dest.writeString(this.original_language);
+        dest.writeString(this.popularity);
     }
 
     public Movie() {
@@ -129,9 +135,9 @@ public class Movie implements Parcelable {
         this.release_date = in.readString();
         this.backdrop_path = in.readString();
         this.movieId = in.readString();
-        this.budget = in.readString();
-        this.genres = new ArrayList<Genres>();
-        in.readList(this.genres, Genres.class.getClassLoader());
+        this.vote_average = in.readString();
+        this.original_language = in.readString();
+        this.popularity = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
