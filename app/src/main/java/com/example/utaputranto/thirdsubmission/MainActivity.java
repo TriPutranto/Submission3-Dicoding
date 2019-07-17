@@ -112,6 +112,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_tv_show) {
             fragment = new TvShowFragment();
             getSupportActionBar().setTitle(getResources().getString(R.string.menu_tv_show));
+        } else if (id == R.id.nav_fav_movie){
+            fragment = new MoviesFavFragment();
+            getSupportActionBar().setTitle(getResources().getString(R.string.favourit_movies));
+        } else if (id == R.id.nav_fav_tv_show){
+            fragment = new TvShowFavFragment();
+            getSupportActionBar().setTitle(getResources().getString(R.string.favourit_tv_show));
         }
 
         loadFragment(fragment);

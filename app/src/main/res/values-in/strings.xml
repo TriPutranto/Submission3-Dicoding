@@ -16,6 +16,8 @@
     <string name="score">Nilai :</string>
     <string name="popularity">Kepopuleran :</string>
     <string name="error">gagal memuat data dari server</string>
+    <string name="favourit_movies">Film Favorit</string>
+    <string name="favourit_tv_show">Acara Tv Favorit</string>
 
 
 </resources>

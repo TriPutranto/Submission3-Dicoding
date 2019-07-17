@@ -126,6 +126,20 @@
             app:layout_constraintTop_toTopOf="@+id/textView4"
             tools:text="en" />
 
+        <ImageView
+            android:id="@+id/btn_favorit"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_favorite_border_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_popularity"
+            app:layout_constraintTop_toTopOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.0" />
+
 
         <TextView
             android:id="@+id/tv_release"

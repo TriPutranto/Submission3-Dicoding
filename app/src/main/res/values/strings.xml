@@ -15,4 +15,10 @@
     <string name="score">score :</string>
     <string name="popularity">Popularity :</string>
     <string name="error">can\'t load data from server</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="favourit_movies">Favourit Movies</string>
+    <string name="favourit_tv_show">Favourit Tv Show</string>
+    <string name="addtofavorite">add fav</string>
+    <string name="deleted">deleted</string>
 </resources>

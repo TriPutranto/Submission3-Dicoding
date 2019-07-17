@@ -1,8 +1,17 @@
 package com.example.utaputranto.thirdsubmission.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
+
+import static android.provider.BaseColumns._ID;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.IDMOVIE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.IMG;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.OVERVIEW;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.TITLE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnInt;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnString;
 
 public class TvShow implements Parcelable {
 
@@ -29,6 +38,16 @@ public class TvShow implements Parcelable {
 
     @SerializedName("popularity")
     private String popularity;
+
+    private int idTvShow;
+
+    public int getIdTvShow() {
+        return idTvShow;
+    }
+
+    public void setIdTvShow(int idTvShow) {
+        this.idTvShow = idTvShow;
+    }
 
     public String getName() {
         return name;
@@ -113,6 +132,15 @@ public class TvShow implements Parcelable {
     }
 
     public TvShow() {
+    }
+
+    public TvShow (Cursor cursor) {
+        this.idTvShow = getColumnInt(cursor, _ID);
+        this.name = getColumnString(cursor,TITLE);
+        this.overview = getColumnString(cursor, OVERVIEW);
+        this.poster_path = getColumnString(cursor, IMG);
+        this.tv_show_id = getColumnString(cursor, IDMOVIE);
+
     }
 
     protected TvShow(Parcel in) {

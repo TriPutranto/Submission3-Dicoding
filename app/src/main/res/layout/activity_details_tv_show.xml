@@ -125,6 +125,22 @@
         app:layout_constraintTop_toTopOf="@+id/textView6"
         tools:text="7.0" />
 
+    <ImageView
+        android:id="@+id/btn_favorit"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_favorite_border_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_popularity"
+        app:layout_constraintTop_toTopOf="@+id/tv_languagedummy"
+        app:layout_constraintVertical_bias="0.333" />
+
     <TextView
         android:id="@+id/overview_dummy"
         android:layout_width="wrap_content"

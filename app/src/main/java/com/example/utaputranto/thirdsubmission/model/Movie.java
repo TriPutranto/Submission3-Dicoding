@@ -1,10 +1,20 @@
 package com.example.utaputranto.thirdsubmission.model;
 
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+
+import static android.provider.BaseColumns._ID;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.DATE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IDMOVIE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IMG;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.OVERVIEW;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.TITLE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnInt;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnString;
 
 public class Movie implements Parcelable {
 
@@ -34,6 +44,16 @@ public class Movie implements Parcelable {
 
     @SerializedName("popularity")
     private String popularity;
+
+    private int idMovie;
+
+    public int getIdMovie() {
+        return idMovie;
+    }
+
+    public void setIdMovie(int idMovie) {
+        this.idMovie = idMovie;
+    }
 
     public String getTitle() {
         return title;
@@ -126,6 +146,15 @@ public class Movie implements Parcelable {
     }
 
     public Movie() {
+    }
+    public Movie(Cursor cursor) {
+        this.idMovie = getColumnInt(cursor, _ID);
+        this.title = getColumnString(cursor,TITLE);
+        this.overview = getColumnString(cursor, OVERVIEW);
+        this.release_date = getColumnString(cursor, DATE);
+        this.poster_path = getColumnString(cursor, IMG);
+        this.movieId = getColumnString(cursor, IDMOVIE);
+
     }
 
     protected Movie(Parcel in) {
