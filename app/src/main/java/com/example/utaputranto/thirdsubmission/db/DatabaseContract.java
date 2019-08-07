@@ -6,33 +6,27 @@ import android.provider.BaseColumns;
 
 
 public class DatabaseContract {
-    public static String TABLE_CATALOG = "catalog";
-    public static String TABLE_TVSHOW = "tv_show";
+    public static String TABLE_TVSHOW = "tvshow";
+    public static String TABLE_MOVIE = "movie";
+
 
     public static String AUTHORITY = "com.example.utaputranto.thirdsubmission";
 
 
-    public static final class CatalogColumns implements BaseColumns{
+    public static final class CatalogColumns implements BaseColumns {
         public static String TITLE = "title";
         public static String OVERVIEW = "overview";
         public static String DATE = "date";
         public static String IMG = "image";
         public static String IDMOVIE = "idmovie";
 
-    }
-
-    public static final class TvShowColumns implements BaseColumns{
-        public static String TITLE = "title";
-        public static String OVERVIEW = "overview";
-        public static String IMG = "image";
-        public static String IDMOVIE = "idmovie";
+        public static final Uri CONTENT_URI = new Uri.Builder().scheme("content")
+                .authority(AUTHORITY)
+                .appendPath(TABLE_MOVIE)
+                .build();
     }
 
 
-    public static final Uri CONTENT_URI = new Uri.Builder().scheme("content")
-            .authority(AUTHORITY)
-            .appendPath(TABLE_CATALOG)
-            .build();
 
     public static final Uri CONTENT_URI_TV = new Uri.Builder().scheme("content")
             .authority(AUTHORITY)

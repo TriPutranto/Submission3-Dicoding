@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 import static android.provider.BaseColumns._ID;
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TABLE_TVSHOW;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.IMG;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.OVERVIEW;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.TITLE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IMG;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.OVERVIEW;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.TITLE;
 
 public class TvShowFavHelper {
     private static String DATABASE_TABLE_TV = TABLE_TVSHOW;
@@ -76,35 +76,5 @@ public class TvShowFavHelper {
 
     public int delete(int id) {
         return database.delete(TABLE_TVSHOW, _ID + " = '" + id + "'", null);
-    }
-
-    public Cursor queryByIdProvider(String id) {
-        return database.query(DATABASE_TABLE_TV, null
-                , _ID + " = ?"
-                , new String[]{id}
-                , null
-                , null
-                , null
-                , null);
-    }
-    public Cursor queryProvider() {
-        return database.query(DATABASE_TABLE_TV
-                ,null
-                ,null
-                ,null
-                ,null
-                ,null
-                ,_ID + " DESC");
-    }
-    public long insertProvider(ContentValues values) {
-        return database.insert(DATABASE_TABLE_TV, null, values);
-    }
-
-    public int updateProvider(String id, ContentValues values) {
-        return database.update(DATABASE_TABLE_TV, values, _ID + " + ?", new String[]{id});
-    }
-
-    public int deleteProvider(String id) {
-        return database.delete(DATABASE_TABLE_TV, _ID + " = ?", new String[]{id});
     }
 }

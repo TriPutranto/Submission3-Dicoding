@@ -3,6 +3,7 @@ package com.example.utaputranto.thirdsubmission.details;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,20 +13,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
+import com.example.utaputranto.thirdsubmission.database.MoviesHelper;
+import com.example.utaputranto.thirdsubmission.db.DatabaseContract;
+import com.example.utaputranto.thirdsubmission.db.DatabaseHelper;
 import com.example.utaputranto.thirdsubmission.db.MovieFavHelper;
-import com.example.utaputranto.thirdsubmission.feature.MovieFragment;
 import com.example.utaputranto.thirdsubmission.model.Movie;
 import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CONTENT_URI;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.CONTENT_URI;
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.DATE;
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IDMOVIE;
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IMG;
@@ -39,20 +40,16 @@ public class DetailsMovieActivity extends AppCompatActivity {
             tvPopularity, tvOverview, tvLanguage;
     final ApiService service = RetrofitClient.retrofit().create(ApiService.class);
     private Movie movie;
-    private Movie mMovie;
-    private Movie mmMovie;
+    public static Movie mMovie;
     private String movieId;
     public static String EXTRA_DATA = "extra_data";
     private ProgressBar progressBar;
     private String url = "https://image.tmdb.org/t/p/original/";
-
-    public static String IS_FAVORITE = "is_favorite";
-    private int favorite;
     private boolean isFavorite = false;
-    private MovieFavHelper movieFavHelper;
-    private int idsql;
-    public static String IDSQL = "idsql";
-    private String id;
+    public static final int RESULT_ADD = 101;
+
+    private MoviesHelper movieFavHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +57,7 @@ public class DetailsMovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details_movie);
 
         mMovie = getIntent().getParcelableExtra(EXTRA_DATA);
+
         movieId = mMovie.getMovieId();
 
         imgPoster = findViewById(R.id.img_poster);
@@ -73,43 +71,74 @@ public class DetailsMovieActivity extends AppCompatActivity {
         tvLanguage = findViewById(R.id.tv_language);
         btnFav = findViewById(R.id.btn_favorit);
         getDetails();
+//        loadDataSQLite();
 
-        //add
-        movieFavHelper = new MovieFavHelper(this);
+//        //add
+        movieFavHelper = MoviesHelper.getInstance(getApplicationContext());
+
         movieFavHelper.open();
 
-        Uri uri = getIntent().getData();
-
-        if (uri != null) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-
-            if (cursor != null) {
-                if (cursor.moveToFirst()) movie = new Movie(cursor);
-                cursor.close();
-            }
-        }
-        favorite = getIntent().getIntExtra(IS_FAVORITE, 0);
-        if (favorite == 1) {
-            isFavorite = true;
-            btnFav.setImageResource(R.drawable.ic_favorite_black_24dp);
-        }
         btnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isFavorite) {
-                    addFavorite();
-                    Toast.makeText(DetailsMovieActivity.this, R.string.addtofavorite, Toast.LENGTH_SHORT).show();
-                } else {
-                    deleteFavorite();
-                    Toast.makeText(DetailsMovieActivity.this, R.string.deleted, Toast.LENGTH_SHORT).show();
-                }
+                SaveMovie();
+//                if (isFavorite) RemoveMovie();
+//                else
 
+//                isFavorite = !isFavorite;
+                setFavorite();
+            }
+        });
 
+        btnFav.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                RemoveMovie();
+                return false;
             }
         });
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(movieFavHelper!=null)movieFavHelper.close();
+
+    }
+
+    public void setFavorite(){
+        if (isFavorite)btnFav.setImageResource(R.drawable.ic_favorite_black_24dp);
+        else btnFav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+    }
+
+
+    public void SaveMovie(){
+        long result = movieFavHelper.insertNote(movie);
+        if (result > 0) {
+           // mMovie.setIdMovie((int) result);
+            //setResult(RESULT_ADD, intent);
+            Toast.makeText(DetailsMovieActivity.this, "Data tersimpan", Toast.LENGTH_SHORT).show();
+
+            finish();
+        } else {
+            Toast.makeText(DetailsMovieActivity.this, "Gagal menambah data", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void RemoveMovie(){
+        Log.e("insert", "delete" + mMovie.getTitle());
+        long result = movieFavHelper.deleteNote(movie.getTitle());
+        if (result > 0) {
+//            Intent intent = new Intent();
+//            intent.putExtra(EXTRA_POSITION, position);
+//            setResult(RESULT_DELETE, intent);
+            finish();
+        } else {
+            Toast.makeText(DetailsMovieActivity.this, "Gagal menghapus data", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -144,27 +173,6 @@ public class DetailsMovieActivity extends AppCompatActivity {
         }
     }
 
-    private void addFavorite() {
-        ContentValues values = new ContentValues();
-        values.put(TITLE, mMovie.getTitle());
-        values.put(OVERVIEW, mMovie.getOverview());
-        values.put(DATE, mMovie.getRelease_date());
-        values.put(IMG, mMovie.getPoster_path());
-        values.put(IDMOVIE, movieId);
-        getContentResolver().insert(CONTENT_URI, values);
-        finish();
-    }
-
-    private void deleteFavorite() {
-        idsql = getIntent().getIntExtra(IDSQL, 0);
-        getContentResolver().delete(
-                Uri.parse(CONTENT_URI + "/" + idsql),
-                null,
-                null);
-        Intent intent = new Intent(DetailsMovieActivity.this, MovieFragment.class);
-        startActivity(intent);
-
-    }
 
     private void getDetails() {
         Call<Movie> call = service.getDetail(movieId);

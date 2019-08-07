@@ -54,15 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             public void onClick(View v) {
 
                 Movie mData = new Movie();
-                mData.setMovieId(movie.getMovieId());
-                mData.setTitle(movie.getTitle());
-                mData.setPoster_path(movie.getPoster_path());
-                mData.setBackdrop_path(movie.getBackdrop_path());
-                mData.setOverview(movie.getOverview());
-                mData.setVote_average(movie.getVote_average());
-                mData.setRelease_date(movie.getRelease_date());
-                mData.setPopularity(movie.getPopularity());
-                mData.setOriginal_language(movie.getOriginal_language());
+                mData.setMovieId(movie.getRelease_date());
 
                 Toast.makeText(context, movie.getMovieId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, DetailsMovieActivity.class);

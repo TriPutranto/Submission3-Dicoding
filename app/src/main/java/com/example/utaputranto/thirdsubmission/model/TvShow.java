@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import static android.provider.BaseColumns._ID;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.IDMOVIE;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.IMG;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.OVERVIEW;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.TvShowColumns.TITLE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IDMOVIE;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IMG;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.OVERVIEW;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.TITLE;
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnInt;
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnString;
 

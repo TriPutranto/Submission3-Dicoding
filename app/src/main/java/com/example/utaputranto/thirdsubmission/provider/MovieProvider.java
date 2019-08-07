@@ -10,54 +10,48 @@ import android.support.annotation.Nullable;
 
 import com.example.utaputranto.thirdsubmission.db.DatabaseContract;
 import com.example.utaputranto.thirdsubmission.db.MovieFavHelper;
-import com.example.utaputranto.thirdsubmission.db.TvShowFavHelper;
-
 import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.AUTHORITY;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CONTENT_URI;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.CONTENT_URI;
+
 
 public class MovieProvider extends ContentProvider {
-    private static final int CATALOG = 1;
-    private static final int CATALOG_ID = 2;
 
+    private static final int FAVORITE=100;
+    private static final int FAVORITE_ID=101;
+    private MovieFavHelper favoriteHelper;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-
-        sUriMatcher.addURI(AUTHORITY, DatabaseContract.TABLE_CATALOG, CATALOG);
-
-
-        sUriMatcher.addURI(AUTHORITY,
-                DatabaseContract.TABLE_CATALOG + "/#", CATALOG_ID);
+        sUriMatcher.addURI(AUTHORITY, DatabaseContract.TABLE_MOVIE,FAVORITE);
+        sUriMatcher.addURI(AUTHORITY,DatabaseContract.TABLE_MOVIE + "/#",FAVORITE_ID);
     }
-
-    private MovieFavHelper movieFavHelper;
 
     @Override
     public boolean onCreate() {
-        movieFavHelper = new MovieFavHelper(getContext());
-        movieFavHelper.open();
+        favoriteHelper=new MovieFavHelper(getContext());
+        favoriteHelper.open();
         return true;
     }
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, String[] strings, String s, String[] strings1, String s1) {
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Cursor cursor;
-        switch (sUriMatcher.match(uri)) {
-            case CATALOG:
-                cursor = movieFavHelper.queryProvider();
+
+        switch (sUriMatcher.match(uri)){
+            case FAVORITE:
+                cursor=favoriteHelper.queryProvider();
                 break;
-            case CATALOG_ID:
-                cursor = movieFavHelper.queryByIdProvider(uri.getLastPathSegment());
+            case FAVORITE_ID:
+                cursor = favoriteHelper.queryByIdProvider(uri.getLastPathSegment());
                 break;
             default:
-                cursor = null;
+                cursor= null;
                 break;
         }
-
-        if (cursor != null) {
-            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        if(cursor!=null){
+            cursor.setNotificationUri(getContext().getContentResolver(),uri);
         }
         return cursor;
     }
@@ -68,60 +62,54 @@ public class MovieProvider extends ContentProvider {
         return null;
     }
 
-
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         long added;
-
-        switch (sUriMatcher.match(uri)) {
-            case CATALOG:
-                added = movieFavHelper.insertProvider(contentValues);
+        switch (sUriMatcher.match(uri)){
+            case FAVORITE:
+                added=favoriteHelper.insertProvider(values);
                 break;
             default:
-                added = 0;
+                added=0;
                 break;
         }
-        if (added > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+        if (added>0){
+            getContext().getContentResolver().notifyChange(uri,null);
         }
-        return Uri.parse(CONTENT_URI + "/" + added);
+        return uri.parse(CONTENT_URI + "/" + added);
     }
 
     @Override
-    public int delete(@NonNull Uri uri, String s, String[] strings) {
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         int deleted;
-        switch (sUriMatcher.match(uri)) {
-            case CATALOG_ID:
-                deleted = movieFavHelper.deleteProvider(uri.getLastPathSegment());
+        switch (sUriMatcher.match(uri)){
+            case FAVORITE_ID:
+                deleted=favoriteHelper.deleteProvider(uri.getLastPathSegment());
                 break;
             default:
-                deleted = 0;
+                deleted=0;
                 break;
         }
-
-        if (deleted > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
-
+        if (deleted>0){
+            getContext().getContentResolver().notifyChange(uri,null);
         }
-
         return deleted;
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues contentValues, String s, String[] strings) {
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         int updated;
-        switch (sUriMatcher.match(uri)) {
-            case CATALOG_ID:
-                updated = movieFavHelper.updateProvider(uri.getLastPathSegment(), contentValues);
+        switch (sUriMatcher.match(uri)){
+            case FAVORITE_ID:
+                updated=favoriteHelper.updateProvider(uri.getLastPathSegment(),values);
                 break;
             default:
-                updated = 0;
+                updated=0;
                 break;
-
         }
-        if (updated > 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+        if (updated>0){
+            getContext().getContentResolver().notifyChange(uri,null);
         }
         return updated;
     }

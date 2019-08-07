@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.utaputranto.thirdsubmission.adapter.TvShowFavAdapter;
 
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CONTENT_URI;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CONTENT_URI_TV;
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.CONTENT_URI;
 
 
 /**
@@ -56,6 +55,7 @@ public class TvShowFavFragment extends Fragment {
         super.onResume();
     }
 
+
     private class LoadFavorite extends AsyncTask<Void, Void, Cursor> {
 
         @Override
@@ -65,7 +65,7 @@ public class TvShowFavFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            return getActivity().getApplicationContext().getContentResolver().query(CONTENT_URI_TV, null, null, null, null);
+            return getActivity().getApplicationContext().getContentResolver().query(CONTENT_URI, null, null, null, null);
         }
 
         @Override

@@ -19,22 +19,38 @@ import com.example.utaputranto.thirdsubmission.MainActivity;
 import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.model.Movie;
 
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CONTENT_URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.CONTENT_URI;
 
 public class MovieFavAdapter extends RecyclerView.Adapter<MovieFavAdapter.ViewHolder> {
     private Cursor listFav;
     private Activity activity;
+    private ArrayList<Movie> listMovie = new ArrayList<>();
     private Context context;
 
-    public MovieFavAdapter(Activity activity, Context context) {
+    public MovieFavAdapter(Activity activity) {
         this.activity = activity;
-        this.context = context;
+
     }
 
-    public void setListFav(Cursor listFav) {
-        this.listFav = listFav;
+    public ArrayList<Movie> getListMovie() {
+        return listMovie;
     }
 
+
+//    public void setListFav(Cursor listFav) {
+//        this.listFav = listFav;
+//    }
+
+    public void setListFav(ArrayList<Movie> listMovie) {
+        if (listMovie.size() > 0){
+            this.listMovie.clear();
+        }
+        this.listMovie.addAll(listMovie);
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
