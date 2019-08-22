@@ -1,10 +1,6 @@
 package com.example.utaputranto.thirdsubmission.details;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,25 +9,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
+import com.example.utaputranto.thirdsubmission.MainActivity;
 import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.database.MoviesHelper;
-import com.example.utaputranto.thirdsubmission.db.DatabaseContract;
-import com.example.utaputranto.thirdsubmission.db.DatabaseHelper;
-import com.example.utaputranto.thirdsubmission.db.MovieFavHelper;
 import com.example.utaputranto.thirdsubmission.model.Movie;
 import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.CONTENT_URI;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.DATE;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IDMOVIE;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IMG;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.OVERVIEW;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.TITLE;
 
 public class DetailsMovieActivity extends AppCompatActivity {
 
@@ -46,10 +35,7 @@ public class DetailsMovieActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String url = "https://image.tmdb.org/t/p/original/";
     private boolean isFavorite = false;
-    public static final int RESULT_ADD = 101;
-
     private MoviesHelper movieFavHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +43,6 @@ public class DetailsMovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details_movie);
 
         mMovie = getIntent().getParcelableExtra(EXTRA_DATA);
-
         movieId = mMovie.getMovieId();
 
         imgPoster = findViewById(R.id.img_poster);
@@ -71,31 +56,21 @@ public class DetailsMovieActivity extends AppCompatActivity {
         tvLanguage = findViewById(R.id.tv_language);
         btnFav = findViewById(R.id.btn_favorit);
         getDetails();
-//        loadDataSQLite();
 
-//        //add
         movieFavHelper = MoviesHelper.getInstance(getApplicationContext());
-
         movieFavHelper.open();
 
         btnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SaveMovie();
-//                if (isFavorite) RemoveMovie();
-//                else
-
-//                isFavorite = !isFavorite;
-                setFavorite();
-            }
-        });
-
-        btnFav.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                RemoveMovie();
-                return false;
+                if (isFavorite){
+                    RemoveMovie();
+                }
+                else{
+                    isFavorite = !isFavorite;
+                    setFavorite();
+                }
             }
         });
 
@@ -104,41 +79,40 @@ public class DetailsMovieActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(movieFavHelper!=null)movieFavHelper.close();
+        if (movieFavHelper != null) movieFavHelper.close();
 
     }
 
-    public void setFavorite(){
-        if (isFavorite)btnFav.setImageResource(R.drawable.ic_favorite_black_24dp);
+    public void setFavorite() {
+        if (isFavorite) btnFav.setImageResource(R.drawable.ic_favorite_black_24dp);
         else btnFav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
     }
 
-
-    public void SaveMovie(){
-        long result = movieFavHelper.insertNote(movie);
+    public void SaveMovie() {
+        long result = movieFavHelper.insertMovie(mMovie);
         if (result > 0) {
-           // mMovie.setIdMovie((int) result);
-            //setResult(RESULT_ADD, intent);
-            Toast.makeText(DetailsMovieActivity.this, "Data tersimpan", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(DetailsMovieActivity.this, getResources().getString(R.string.saved), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DetailsMovieActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         } else {
-            Toast.makeText(DetailsMovieActivity.this, "Gagal menambah data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailsMovieActivity.this, getResources().getString(R.string.already_exist), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void RemoveMovie(){
+    private void RemoveMovie() {
         Log.e("insert", "delete" + mMovie.getTitle());
-        long result = movieFavHelper.deleteNote(movie.getTitle());
+        long result = movieFavHelper.deleteMovie(movie.getTitle());
         if (result > 0) {
-//            Intent intent = new Intent();
-//            intent.putExtra(EXTRA_POSITION, position);
-//            setResult(RESULT_DELETE, intent);
+            Toast.makeText(DetailsMovieActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DetailsMovieActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         } else {
-            Toast.makeText(DetailsMovieActivity.this, "Gagal menghapus data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailsMovieActivity.this, getResources().getString(R.string.cant_delete), Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

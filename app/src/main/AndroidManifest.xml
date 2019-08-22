@@ -29,12 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider
-            android:name=".provider.MovieProvider"
-            android:authorities="com.example.utaputranto.thirdsubmission"
-            android:exported="true"
-            android:readPermission="android.example.com.moviecataloguedanu.READ_DATABASE"
-            android:writePermission="android.example.com.moviecataloguedanu.WRITE_DATABASE"/>
     </application>
 
 </manifest>

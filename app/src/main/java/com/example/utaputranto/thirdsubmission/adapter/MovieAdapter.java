@@ -10,23 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.details.DetailsMovieActivity;
 import com.example.utaputranto.thirdsubmission.model.Movie;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private Context context;
-    private List<Movie> movies;
+    private ArrayList<Movie> movies;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
+    public MovieAdapter(Context context, ArrayList<Movie> movies) {
         this.context = context;
         this.movies = movies;
+        notifyDataSetChanged();
     }
+
 
     @NonNull
     @Override
@@ -54,12 +54,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             public void onClick(View v) {
 
                 Movie mData = new Movie();
-                mData.setMovieId(movie.getRelease_date());
+                mData.setMovieId(movie.getMovieId());
+                mData.setIdMovie(movie.getIdMovie());
+                mData.setPoster_path(movie.getPoster_path());
+                mData.setBackdrop_path(movie.getBackdrop_path());
+                mData.setRelease_date(movie.getRelease_date());
+                mData.setOverview(movie.getOverview());
+                mData.setOriginal_language(movie.getOriginal_language());
+                mData.setPopularity(movie.getPopularity());
+                mData.setVote_average(movie.getVote_average());
+                mData.setTitle(movie.getTitle());
 
-                Toast.makeText(context, movie.getMovieId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, DetailsMovieActivity.class);
                 intent.putExtra(DetailsMovieActivity.EXTRA_DATA, mData);
                 context.startActivity(intent);
+
             }
         });
     }

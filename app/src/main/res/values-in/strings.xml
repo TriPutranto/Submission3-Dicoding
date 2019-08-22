@@ -19,5 +19,12 @@
     <string name="favourit_movies">Film Favorit</string>
     <string name="favourit_tv_show">Acara Tv Favorit</string>
 
+    <string name="addtofavorite">tambah favorit</string>
+    <string name="deleted">terhapus</string>
+    <string name="cant_delete">Gagal menghapus data</string>
+    <string name="saved">Data Tersimpan</string>
+    <string name="already_exist">Data sudah ada di favorite.
+ketuk sekali lagi untuk menghapus</string>
+
 
 </resources>

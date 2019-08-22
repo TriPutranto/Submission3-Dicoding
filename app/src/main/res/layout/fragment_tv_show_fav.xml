@@ -6,9 +6,9 @@
     tools:context=".TvShowFavFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_fav"
+        android:id="@+id/rv_fav_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_fav"/>
+        tools:listitem="@layout/item_fav_tv"/>
 
 </FrameLayout>

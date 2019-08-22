@@ -1,12 +1,8 @@
 package com.example.utaputranto.thirdsubmission.database;
 
-import android.database.Cursor;
 import android.provider.BaseColumns;
 
 public class DbContract {
-
-    public static final String AUTHORITY = "com.example.utaputranto.mynotesapp";
-    public static final String SCHEME = "content";
 
     private DbContract(){}
     public static String TABLE_NOTE = "note";
@@ -18,24 +14,21 @@ public class DbContract {
         public  static String DESCRIPTION = "description";
         public  static String DATE = "date";
         public  static String ID = "id";
+        public  static String IMG = "image";
+        public  static String BACKDROP = "backrop";
+        public  static String VOTE = "vote";
+        public  static String POPULARITY = "popularity";
+        public  static String LANGUANGE = "language";
     }
 
     static final  class NoteColumns2 implements BaseColumns{
         public static String TITLE = "title";
+        public  static String IMG = "image";
+        public  static String ID = "id";
+        public  static String LANGUANGE = "language";
+        public  static String VOTE = "vote";
+        public  static String POPULARITY = "popular";
         public  static String DESCRIPTION = "description";
-        public  static String DATE = "date";
-    }
-
-
-    public static String getColumnString(Cursor cursor, String columnName){
-        return cursor.getString(cursor.getColumnIndex(columnName));
-    }
-
-    public static int getColumnInt(Cursor cursor, String columnName){
-        return cursor.getInt(cursor.getColumnIndex(columnName));
-    }
-
-    public static long getColumnLong(Cursor cursor, String columnName){
-        return cursor.getLong(cursor.getColumnIndex(columnName));
+        public  static String BACKDROP = "backdrop";
     }
 }

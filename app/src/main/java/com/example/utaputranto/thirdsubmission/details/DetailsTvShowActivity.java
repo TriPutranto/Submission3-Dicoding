@@ -2,6 +2,7 @@ package com.example.utaputranto.thirdsubmission.details;
 
 import android.content.ContentValues;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +11,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
+import com.example.utaputranto.thirdsubmission.MainActivity;
 import com.example.utaputranto.thirdsubmission.R;
-import com.example.utaputranto.thirdsubmission.db.TvShowFavHelper;
+import com.example.utaputranto.thirdsubmission.database.TvShowHelper;
 import com.example.utaputranto.thirdsubmission.model.TvShow;
 import com.example.utaputranto.thirdsubmission.service.ApiService;
 import com.example.utaputranto.thirdsubmission.service.RetrofitClient;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +37,8 @@ public class DetailsTvShowActivity extends AppCompatActivity {
     private TvShow mTvShow;
     private String url = "https://image.tmdb.org/t/p/original/";
 
-    private TvShowFavHelper tvShowFavHelper;
+    private TvShowHelper tvShowHelper;
+    private boolean isFavorite = false;
 
 
     @Override
@@ -55,18 +60,58 @@ public class DetailsTvShowActivity extends AppCompatActivity {
         btnFav = findViewById(R.id.btn_favorit);
         getDetails();
 
-        //add
-        tvShowFavHelper = new TvShowFavHelper(this);
-        tvShowFavHelper.open();
+        tvShowHelper = TvShowHelper.getInstance(getApplicationContext());
+        tvShowHelper.open();
+
 
         btnFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvShowFavHelper.insert(tvShow);
-                finish();
-                Toast.makeText(DetailsTvShowActivity.this, R.string.addtofavorite, Toast.LENGTH_SHORT).show();
+                saveTvShow();
+                if (isFavorite) {
+                    removeTvShow();
+                } else {
+                    isFavorite = !isFavorite;
+                    setFavorite();
+                }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (tvShowHelper != null) tvShowHelper.close();
+    }
+
+    public void setFavorite() {
+        if (isFavorite) btnFav.setImageResource(R.drawable.ic_favorite_black_24dp);
+        else btnFav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+    }
+
+    public void saveTvShow() {
+        long result = tvShowHelper.insertTvshow(mTvShow);
+        if (result > 0) {
+            Toast.makeText(DetailsTvShowActivity.this, getResources().getString(R.string.saved), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DetailsTvShowActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(DetailsTvShowActivity.this, getResources().getString(R.string.already_exist), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void removeTvShow() {
+        Log.e("insert", "delete" + mTvShow.getName());
+        long result = tvShowHelper.deleteTvshow(tvShow.getName());
+        if (result > 0) {
+            Toast.makeText(DetailsTvShowActivity.this, getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DetailsTvShowActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(DetailsTvShowActivity.this, getResources().getString(R.string.cant_delete), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

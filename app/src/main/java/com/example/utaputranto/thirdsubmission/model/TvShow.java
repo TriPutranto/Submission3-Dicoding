@@ -6,12 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import static android.provider.BaseColumns._ID;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IDMOVIE;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.IMG;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.OVERVIEW;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.CatalogColumns.TITLE;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnInt;
-import static com.example.utaputranto.thirdsubmission.db.DatabaseContract.getColumnString;
 
 public class TvShow implements Parcelable {
 
@@ -132,15 +126,6 @@ public class TvShow implements Parcelable {
     }
 
     public TvShow() {
-    }
-
-    public TvShow (Cursor cursor) {
-        this.idTvShow = getColumnInt(cursor, _ID);
-        this.name = getColumnString(cursor,TITLE);
-        this.overview = getColumnString(cursor, OVERVIEW);
-        this.poster_path = getColumnString(cursor, IMG);
-        this.tv_show_id = getColumnString(cursor, IDMOVIE);
-
     }
 
     protected TvShow(Parcel in) {

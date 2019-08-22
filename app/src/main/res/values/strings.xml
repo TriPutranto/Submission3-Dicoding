@@ -21,4 +21,8 @@
     <string name="favourit_tv_show">Favourit Tv Show</string>
     <string name="addtofavorite">add fav</string>
     <string name="deleted">deleted</string>
+    <string name="cant_delete">cannot delete data</string>
+    <string name="saved">Saved</string>
+    <string name="already_exist">Data already exist in favorite.
+    click once again for delete</string>
 </resources>

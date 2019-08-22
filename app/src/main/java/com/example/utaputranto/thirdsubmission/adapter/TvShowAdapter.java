@@ -13,23 +13,23 @@ import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
 import com.example.utaputranto.thirdsubmission.details.DetailsTvShowActivity;
 import com.example.utaputranto.thirdsubmission.model.TvShow;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
 
     private Context context;
-    private List<TvShow> tvShows;
+    private ArrayList<TvShow> tvShows;
 
-    public TvShowAdapter(Context context, List<TvShow> tvShows) {
+    public TvShowAdapter(Context context, ArrayList<TvShow> tvShows) {
         this.context = context;
         this.tvShows = tvShows;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_tv_show, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_fav_tv, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -43,6 +43,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
                 .error(R.drawable.ic_refresh_black_24dp)
                 .into(viewHolder.imgPoster);
         viewHolder.tvTitle.setText(tvShow.getName());
+        viewHolder.tvOverview.setText(tvShow.getOverview());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,12 +73,14 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPoster;
-        TextView tvTitle;
+        TextView tvTitle, tvOverview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPoster = itemView.findViewById(R.id.img_poster);
             tvTitle = itemView.findViewById(R.id.tv_title);
+            tvOverview = itemView.findViewById(R.id.tv_overview);
+
         }
     }
 }
