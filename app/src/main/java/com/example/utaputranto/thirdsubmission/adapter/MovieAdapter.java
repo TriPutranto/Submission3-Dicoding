@@ -10,11 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
-import com.example.utaputranto.thirdsubmission.details.DetailsMovieActivity;
-import com.example.utaputranto.thirdsubmission.model.Movie;
+import com.example.utaputranto.thirdsubmission.view.activity.DetailsMovieActivity;
+import com.example.utaputranto.thirdsubmission.model.movie.Movie;
+
 import java.util.ArrayList;
+
+import static com.example.utaputranto.thirdsubmission.util.utility.IMAGE_URL;
+
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
@@ -38,9 +43,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         final Movie movie = movies.get(i);
-        String url = "https://image.tmdb.org/t/p/original";
         Glide.with(context)
-                .load(url + movie.getPoster_path())
+                .load(IMAGE_URL + movie.getPoster_path())
                 .placeholder(R.drawable.ic_file_download_black_24dp)
                 .error(R.drawable.ic_refresh_black_24dp)
                 .into(viewHolder.imgPoster);

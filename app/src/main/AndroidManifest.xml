@@ -2,25 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.utaputranto.thirdsubmission">
 
-    <permission
-        android:name="com.example.utaputranto.thirdsubmission.READ_DATABASE"
-         />
-    <permission
-        android:name="com.example.utaputranto.thirdsubmission.WRITE_DATABASE"
-         />
+    <permission android:name="com.example.utaputranto.thirdsubmission.READ_DATABASE" />
+    <permission android:name="com.example.utaputranto.thirdsubmission.WRITE_DATABASE" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".details.DetailsTvShowActivity"></activity>
-        <activity android:name=".details.DetailsMovieActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name=".widget.FavouriteWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favourite_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity android:name=".view.activity.SettingActivity" />
+        <activity android:name=".view.activity.DetailsTvShowActivity" />
+        <activity android:name=".view.activity.DetailsMovieActivity" />
+        <activity
+            android:name=".view.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -29,6 +47,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".provider.FavoriteProvider"
+            android:authorities="com.example.utaputranto.thirdsubmission"
+            android:exported="true"
+            android:readPermission="com.example.utaputranto.thirdsubmission.READ_DATABASE"
+            android:writePermission="com.example.utaputranto.thirdsubmission.WRITE_DATABASE" />
+
+        <receiver
+            android:name=".reminder.MovieReminder"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

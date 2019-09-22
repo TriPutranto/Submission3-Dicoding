@@ -61,6 +61,7 @@
             tools:text="Earl Stone,"
             android:fontFamily="@font/roboto_regular"
             android:textSize="14sp"
+            android:textStyle="italic"
             android:ellipsize="end"
             android:layout_marginRight="15dp"
             android:maxLines="2"

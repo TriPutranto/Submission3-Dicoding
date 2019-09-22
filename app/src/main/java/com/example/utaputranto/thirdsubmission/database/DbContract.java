@@ -1,34 +1,40 @@
 package com.example.utaputranto.thirdsubmission.database;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class DbContract {
 
-    private DbContract(){}
-    public static String TABLE_NOTE = "note";
-    public static String TABLE_NOTE2 = "note2";
-
-
-    static final  class NoteColumns implements BaseColumns{
-        public static String TITLE = "title";
-        public  static String DESCRIPTION = "description";
-        public  static String DATE = "date";
-        public  static String ID = "id";
-        public  static String IMG = "image";
-        public  static String BACKDROP = "backrop";
-        public  static String VOTE = "vote";
-        public  static String POPULARITY = "popularity";
-        public  static String LANGUANGE = "language";
+    private DbContract() {
     }
 
-    static final  class NoteColumns2 implements BaseColumns{
-        public static String TITLE = "title";
-        public  static String IMG = "image";
-        public  static String ID = "id";
-        public  static String LANGUANGE = "language";
-        public  static String VOTE = "vote";
-        public  static String POPULARITY = "popular";
-        public  static String DESCRIPTION = "description";
-        public  static String BACKDROP = "backdrop";
+    public static String AUTHORITY = "com.example.utaputranto.thirdsubmission";
+
+
+    public static final class FavoriteColumns implements BaseColumns {
+        public static final String TABLE_FAVORITE = "db_favorite";
+        public static final String ID = "mId";
+        public static final String TITLE = "title";
+        public static final String POSTER = "poster";
+        public static final String BACKDROP = "backdrop";
+        public static final String RATING = "rating";
+        public static final String RELEASE_DATE = "release_date";
+        public static final String OVERVIEW = "overview";
+        public static final String CATEGORY = "category";
+
+        public static final Uri CONTENT_URI = new Uri.Builder().scheme("content")
+                .authority(AUTHORITY)
+                .appendPath(TABLE_FAVORITE)
+                .build();
+
+        public static String getColumnString(Cursor cursor, String columnName) {
+            return cursor.getString(cursor.getColumnIndex(columnName));
+        }
+
+        public static int getColumnInt(Cursor cursor, String columnName) {
+            return cursor.getInt(cursor.getColumnIndex(columnName));
+
+        }
     }
 }

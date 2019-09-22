@@ -9,11 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.example.utaputranto.thirdsubmission.R;
-import com.example.utaputranto.thirdsubmission.details.DetailsTvShowActivity;
-import com.example.utaputranto.thirdsubmission.model.TvShow;
+import com.example.utaputranto.thirdsubmission.view.activity.DetailsTvShowActivity;
+import com.example.utaputranto.thirdsubmission.model.tvshow.TvShow;
+
 import java.util.ArrayList;
+
+import static com.example.utaputranto.thirdsubmission.util.utility.IMAGE_URL;
+
 
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder> {
 
@@ -36,14 +41,14 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final TvShow tvShow = tvShows.get(i);
-        String url = "https://image.tmdb.org/t/p/original";
         Glide.with(context)
-                .load(url + tvShow.getPoster_path())
+                .load(IMAGE_URL + tvShow.getPoster_path())
                 .placeholder(R.drawable.ic_file_download_black_24dp)
                 .error(R.drawable.ic_refresh_black_24dp)
                 .into(viewHolder.imgPoster);
         viewHolder.tvTitle.setText(tvShow.getName());
         viewHolder.tvOverview.setText(tvShow.getOverview());
+        viewHolder.tvRelease.setText(tvShow.getmFirstAirDate());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +61,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
                 mData.setOriginal_language(tvShow.getOriginal_language());
                 mData.setTv_show_id(tvShow.getTv_show_id());
                 mData.setPopularity(tvShow.getPopularity());
+                mData.setmFirstAirDate(tvShow.getmFirstAirDate());
                 mData.setVote_average(tvShow.getVote_average());
 
                 Intent intent = new Intent(context, DetailsTvShowActivity.class);
@@ -73,13 +79,14 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPoster;
-        TextView tvTitle, tvOverview;
+        TextView tvTitle, tvOverview, tvRelease;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPoster = itemView.findViewById(R.id.img_poster);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvOverview = itemView.findViewById(R.id.tv_overview);
+            tvRelease = itemView.findViewById(R.id.tv_release);
 
         }
     }

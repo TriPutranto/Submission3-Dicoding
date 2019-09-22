@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ThirdSubmission</string>
+    <string name="app_name">CatalogueMovie</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Ahmad Tri Putranto</string>
+    <string name="nav_header_subtitle">utaputranto@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="change_language">Ubah Bahasa</string>
@@ -16,15 +16,22 @@
     <string name="score">Nilai :</string>
     <string name="popularity">Kepopuleran :</string>
     <string name="error">gagal memuat data dari server</string>
+    <string name="error_save">tidak dapat di save</string>
     <string name="favourit_movies">Film Favorit</string>
-    <string name="favourit_tv_show">Acara Tv Favorit</string>
 
-    <string name="addtofavorite">tambah favorit</string>
     <string name="deleted">terhapus</string>
-    <string name="cant_delete">Gagal menghapus data</string>
     <string name="saved">Data Tersimpan</string>
-    <string name="already_exist">Data sudah ada di favorite.
-ketuk sekali lagi untuk menghapus</string>
+    <string name="search">Cari Movie</string>
+
+    <string name="searchTv">Cari Tv</string>
+    <string name="settings">Pengaturan</string>
+    <string name="favourit">Favorite</string>
+    <string name="empty_text">Text Kosong</string>
+    <string name="msg_daily_reminder">Pengingat Harian</string>
+    <string name="DailyOn">Pengingat Harian telah aktif</string>
+    <string name="DailyOff">Pengingat Harian dimatikan</string>
+    <string name="UpcomingOn">UpComing Tayang telah aktif</string>
+    <string name="UpcomingOff">Upcoming Tayang dimatikan</string>
 
 
 </resources>

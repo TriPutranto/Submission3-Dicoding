@@ -3,39 +3,16 @@ package com.example.utaputranto.thirdsubmission.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import static com.example.utaputranto.thirdsubmission.database.DbContract.FavoriteColumns.TABLE_FAVORITE;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "dbnoteapp";
+    public static String DATABASE_NAME = "cataloguemovie";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
 
-    private static final String SQL_CREATE_TABLE = String.format("CREATE TABLE %s"
-                    + " (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL," +
-                    " %s TEXT NOT NULL)",
-            DbContract.TABLE_NOTE,
-            DbContract.NoteColumns.ID,
-            DbContract.NoteColumns.TITLE,
-            DbContract.NoteColumns.DESCRIPTION,
-            DbContract.NoteColumns.DATE,
-            DbContract.NoteColumns.BACKDROP,
-            DbContract.NoteColumns.VOTE,
-            DbContract.NoteColumns.POPULARITY,
-            DbContract.NoteColumns.LANGUANGE,
-            DbContract.NoteColumns.IMG,
-            DbContract.NoteColumns._ID
-    );
-
-    private static final String SQL_CREATE_TABLE2 = String.format("CREATE TABLE %s"
+    private static final String SQL_CREATE_TABLE_FAVORITE = String.format("CREATE TABLE %s"
                     + " (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
                     " %s TEXT NOT NULL," +
                     " %s TEXT NOT NULL," +
@@ -45,16 +22,16 @@ public class DbHelper extends SQLiteOpenHelper {
                     " %s TEXT NOT NULL," +
                     " %s TEXT NOT NULL," +
                     " %s TEXT NOT NULL)",
-            DbContract.TABLE_NOTE2,
-            DbContract.NoteColumns2.ID,
-            DbContract.NoteColumns2.TITLE,
-            DbContract.NoteColumns2._ID,
-            DbContract.NoteColumns2.LANGUANGE,
-            DbContract.NoteColumns2.DESCRIPTION,
-            DbContract.NoteColumns2.POPULARITY,
-            DbContract.NoteColumns2.VOTE,
-            DbContract.NoteColumns2.BACKDROP,
-            DbContract.NoteColumns2.IMG
+            TABLE_FAVORITE,
+            DbContract.FavoriteColumns._ID,
+            DbContract.FavoriteColumns.ID,
+            DbContract.FavoriteColumns.TITLE,
+            DbContract.FavoriteColumns.POSTER,
+            DbContract.FavoriteColumns.BACKDROP,
+            DbContract.FavoriteColumns.RATING,
+            DbContract.FavoriteColumns.RELEASE_DATE,
+            DbContract.FavoriteColumns.OVERVIEW,
+            DbContract.FavoriteColumns.CATEGORY
     );
 
     public DbHelper(Context context) {
@@ -63,16 +40,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_TABLE);
-        db.execSQL(SQL_CREATE_TABLE2);
-        Log.e("SQL", "Created : " + SQL_CREATE_TABLE);
-        Log.e("SQL", "Created : " + SQL_CREATE_TABLE2);
+        db.execSQL(SQL_CREATE_TABLE_FAVORITE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + DbContract.TABLE_NOTE);
-        db.execSQL("DROP TABLE IF EXISTS " + DbContract.TABLE_NOTE2);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITE);
         onCreate(db);
     }
 }
